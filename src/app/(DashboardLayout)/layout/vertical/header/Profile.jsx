@@ -19,7 +19,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
-import { logout, updateUserImage } from "@/app/store/authSlice"; 
+import { logout } from "@/app/store/authSlice"; 
 import { persistor } from "@/app/store/store";
 import BASE_URL from '@/utils/api';
 
@@ -68,8 +68,6 @@ const Profile = () => {
         }
       );
 
-      // ✅ update Redux store with new image
-      dispatch(updateUserImage(res.data.data.image));
 
       handleDialogClose();
     } catch (err) {
