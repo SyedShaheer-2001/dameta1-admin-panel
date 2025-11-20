@@ -137,6 +137,7 @@ const Blogs = () => {
       setLoading(false);
     }
   };
+  
 console.log('editBlog', editBlog)
    
   // 📂 FETCH CATEGORIES

@@ -32,10 +32,16 @@
       "static/chunks/main-app.js",
       "static/chunks/app/auth/auth1/login/page.js"
     ],
-    "/_not-found/page": [
+    "/(DashboardLayout)/categories/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/(DashboardLayout)/categories/page.js"
+    ],
+    "/(DashboardLayout)/blogs/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(DashboardLayout)/blogs/page.css",
+      "static/chunks/app/(DashboardLayout)/blogs/page.js"
     ]
   }
 }
