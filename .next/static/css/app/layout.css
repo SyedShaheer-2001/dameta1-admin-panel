@@ -56,6 +56,77 @@
   background: #1e1e1e;
   color: white;
 }
+/* Add this to your global CSS file or in a style tag */
+.ql-font-arial {
+  font-family: Arial, sans-serif !important;
+}
+.ql-font-helvetica {
+  font-family: Helvetica, sans-serif !important;
+}
+.ql-font-times-new-roman {
+  font-family: "Times New Roman", serif !important;
+}
+.ql-font-times {
+  font-family: Times, serif;
+}
+.ql-font-courier-new {
+  font-family: "Courier New", monospace;
+}
+.ql-font-courier {
+  font-family: Courier, monospace;
+}
+.ql-font-verdana {
+  font-family: Verdana, sans-serif;
+}
+.ql-font-georgia {
+  font-family: Georgia, serif;
+}
+.ql-font-palatino {
+  font-family: Palatino, serif;
+}
+.ql-font-garamond {
+  font-family: Garamond, serif;
+}
+.ql-font-bookman {
+  font-family: Bookman, serif;
+}
+.ql-font-comic-sans-ms {
+  font-family: "Comic Sans MS", cursive;
+}
+.ql-font-trebuchet-ms {
+  font-family: "Trebuchet MS", sans-serif;
+}
+.ql-font-arial-black {
+  font-family: "Arial Black", sans-serif;
+}
+.ql-font-impact {
+  font-family: Impact, sans-serif;
+}
+.ql-font-lucida-sans-unicode {
+  font-family: "Lucida Sans Unicode", sans-serif;
+}
+.ql-font-tahoma {
+  font-family: Tahoma, sans-serif;
+}
+.ql-font-geneva {
+  font-family: Geneva, sans-serif;
+}
+.ql-toolbar .ql-undo::before {
+  content: "↶";
+}
+
+.ql-toolbar .ql-redo::before {
+  content: "↷";
+}
+
+.ql-toolbar .ql-special::before {
+  content: "Ω";
+}
+
+.ql-toolbar .ql-pasteText::before {
+  content: "T";
+}
+
 
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"src\\utils\\theme\\Typography.jsx","import":"Poppins","arguments":[{"weight":["300","400","500","600","700"],"subsets":["latin"],"display":"swap","fallback":["Helvetica","Arial","sans-serif"]}],"variableName":"poppins"} ***!

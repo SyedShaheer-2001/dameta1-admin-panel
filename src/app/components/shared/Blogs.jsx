@@ -36,18 +36,72 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import BASE_URL, { Backend_URL } from '@/utils/api';
+import BASE_URL, { Backend_URL , Live_webiste_URL} from '@/utils/api';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import CodeIcon from '@mui/icons-material/Code';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const quillModules = {
   toolbar: {
     container: [
-      [{ header: [1, 2, false] }],
-      ['bold', 'italic', 'underline'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'image'], // image button
-      ['clean']
+      // Headers
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      // Basic style
+      ["bold", "italic", "underline", "strike"],
+
+      // Colors
+      [{ color: [] }, { background: [] }],
+
+      // Lists & alignment
+      [{ align: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+
+      // Undo / Redo
+      ["undo", "redo"],
+
+      // Block elements
+      ["blockquote", "code-block"],
+
+      // Special
+      ["clean"],            // Clear formatting
+      ["special"],          // Special characters popup
+      ["pasteText"],        // Paste as plain text
+
+      // Media
+      
+      ['link', 'image', 'video'],
     ],
+
     handlers: {
+      // ----- UNDO / REDO -----
+      undo: function () {
+        this.quill.history.undo();
+      },
+      redo: function () {
+        this.quill.history.redo();
+      },
+
+      // Special: dispatch a CustomEvent with the quill instance
+      special: function () {
+        const event = new CustomEvent('openSpecialChars', {
+          detail: { quill: this.quill },
+        });
+        window.dispatchEvent(event);
+      },
+
+      // ----- PASTE AS TEXT -----
+      pasteText: function () {
+        const text = prompt("Paste text:");
+        if (!text) return;
+
+        const range = this.quill.getSelection();
+        this.quill.insertText(range.index, text);
+      },
+
+      // ----- CUSTOM IMAGE HANDLER (Your current code) -----
       image: function () {
         const input = document.createElement("input");
         input.setAttribute("type", "file");
@@ -58,20 +112,57 @@ const quillModules = {
           const file = input.files[0];
           if (!file) return;
 
-          // Convert file → Base64
           const reader = new FileReader();
           reader.onload = () => {
             const base64 = reader.result;
-
-            // Insert into editor
             const range = this.quill.getSelection(true);
             this.quill.insertEmbed(range.index, "image", base64);
           };
           reader.readAsDataURL(file);
         };
-      }
-    }
-  }
+      },
+    },
+  },
+
+  // Enable history for undo/redo
+  history: {
+    delay: 500,
+    maxStack: 200,
+    userOnly: true,
+  },
+
+  // Add keyboard shortcuts
+  keyboard: {
+    bindings: {
+      undo: {
+        key: "Z",
+        shortKey: true, // cmd+Z or ctrl+Z
+        handler(range, context) {
+          this.quill.history.undo();
+        },
+      },
+      redo: {
+        key: "Z",
+        shortKey: true,
+        shiftKey: true, // shift+cmd+Z
+        handler(range, context) {
+          this.quill.history.redo();
+        },
+      },
+      pasteText: {
+        key: "V",
+        shortKey: true,
+        shiftKey: true, // shift+cmd+V
+        handler: function () {
+          const text = prompt("Paste plain text here:");
+          if (text) {
+            const range = this.quill.getSelection();
+            this.quill.insertText(range.index, text);
+          }
+        },
+      },
+    },
+  },
 };
 
 
@@ -83,7 +174,7 @@ const Blogs = () => {
   const [catLoading, setCatLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
-
+const [editorMode, setEditorMode] = useState('visual'); // 'visual' or 'code'
   const [newBlog, setNewBlog] = useState({
     title: '',
     slug: '',
@@ -96,6 +187,8 @@ const Blogs = () => {
     status: true,
     image: null,
   });
+
+ 
 
   
 
@@ -121,7 +214,22 @@ const Blogs = () => {
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
   const token = storedUser?.token;
 
-   
+  // inside Blogs component, near your other state hooks:
+const [specialModalOpen, setSpecialModalOpen] = useState(false);
+const specialQuillRef = React.useRef(null);
+
+// listen to the custom event and open the modal
+useEffect(() => {
+  const handler = (ev) => {
+    specialQuillRef.current = ev.detail?.quill || null;
+    setSpecialModalOpen(true);
+  };
+  window.addEventListener('openSpecialChars', handler);
+  return () => window.removeEventListener('openSpecialChars', handler);
+}, []);
+
+
+    console.log('editBlog.tags', editBlog.tags)
   // 🚀 FETCH BLOGS
    
   const fetchBlogs = async () => {
@@ -263,7 +371,9 @@ const updateBlog = async () => {
       formData.append('image', editBlog.image);
     }
 
+    if(editBlog.category_ids){
      editBlog.category_ids.forEach(id => formData.append('category_ids[]', id));
+    }
 
     if (editBlog.tags){
     editBlog.tags.forEach(tag => formData.append("tags[]", tag));
@@ -682,6 +792,13 @@ const updateBlog = async () => {
                         >
                           <DeleteIcon fontSize="small" />
                         </IconButton>
+
+                        <IconButton
+                          color="primary"
+                          onClick={() => window.open(`${Live_webiste_URL}/${blog.slug}`, "_blank")}
+                        >
+                          <VisibilityIcon fontSize="small" />
+                        </IconButton>
                       </div>
                     </TableCell>
 
@@ -732,7 +849,6 @@ const updateBlog = async () => {
             label="Slug"
             fullWidth
             value={newBlog.slug}
-            InputProps={{ readOnly: true }}
           />
           <TextField margin="dense" label="Author" fullWidth
             value={newBlog.author} onChange={(e) => setNewBlog({ ...newBlog, author: e.target.value })} />
@@ -791,12 +907,43 @@ const updateBlog = async () => {
           />
 
           <Typography variant="subtitle1" sx={{ mt: 2 }}>Content</Typography>
-          <ReactQuill
-            theme="snow"
-            modules={quillModules}
-            value={newBlog.content}
-            onChange={(value) => setNewBlog({ ...newBlog, content: value })}
-          />
+
+          {/* Editor Mode Toggle */}
+            <Box sx={{ mb: 1, mt: 2 }}>
+              <ToggleButtonGroup
+                value={editorMode}
+                exclusive
+                onChange={(e, newMode) => setEditorMode(newMode)}
+                aria-label="editor mode"
+              >
+                <ToggleButton value="visual" aria-label="visual editor">
+                  <VisibilityIcon sx={{ mr: 1 }} /> Visual
+                </ToggleButton>
+                <ToggleButton value="code" aria-label="code editor">
+                  <CodeIcon sx={{ mr: 1 }} /> Code
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
+
+            {/* Conditional Editor Render */}
+            {editorMode === 'visual' ? (
+              <ReactQuill
+              theme="snow"
+              modules={quillModules}
+              value={newBlog.content}
+              onChange={(value) => setNewBlog({ ...newBlog, content: value })}
+              />
+            ) : (
+              <TextField
+                fullWidth
+                multiline
+                rows={15}
+                value={newBlog.content} // or editBlog.content
+                onChange={(e) => setNewBlog({ ...newBlog, content: e.target.value })}
+                placeholder="Enter HTML content here..."
+                sx={{ mt: 1 }}
+              />
+            )}
 
         </DialogContent>
         <DialogActions>
@@ -806,6 +953,87 @@ const updateBlog = async () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+              {/* Special Characters Modal */}
+        <Dialog
+          open={specialModalOpen}
+          onClose={() => setSpecialModalOpen(false)}
+          maxWidth="xs"
+          fullWidth
+        >
+          <DialogTitle>Select special character</DialogTitle>
+          <DialogContent dividers>
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              Click a character to insert it at the cursor.
+            </Typography>
+
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(8, 1fr)',
+                gap: 1,
+              }}
+            >
+              {[
+  // BASIC
+  '©','®','™','✓','✔','✕','•','§','¶','@','#','&',
+
+  // ARROWS
+  '→','←','↑','↓','↔','↕','⇒','⇐','⇑','⇓','➜','➤','➥','➦','➧','➨','➩','➲',
+
+  // MATH
+  '±','÷','×','=', '≠','≈','≡','≤','≥','∞','∑','∏','√','∫','∂','∆','∇','µ',
+
+  // QUOTES & PUNCTUATION
+  '“','”','‘','’','«','»','–','—','…','¡','¿',
+
+  // CURRENCY
+  '$','€','£','¥','₩','₽','₹','₱','¢','₴','₦','฿',
+
+  // GREEK LETTERS
+  'α','β','γ','δ','ε','θ','λ','μ','π','σ','τ','φ','ψ','Ω','ω',
+
+  // SUPERSCRIPT / SUBSCRIPT
+  '¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹','⁰',
+  '₁','₂','₃','₄','₅','₆','₇','₈','₉','₀',
+
+  // ACCENTED CHARACTERS
+  'á','à','â','ä','ã','å','æ','ç','é','è','ê','ë','í','ì','î','ï',
+  'ñ','ó','ò','ô','ö','õ','ø','ß','ú','ù','û','ü','ý','ÿ',
+
+  // SCIENCE & MATH SPECIAL
+  '°','‰','Ω','℧','ℓ','∈','∉','⊂','⊃','⊆','⊇','∪','∩','∧','∨','⊕','⊗','⊘',
+
+  // MISC
+  '☆','★','✓','✗','✦','✧','♠','♣','♥','♦','♪','♫','✓','✔','✕'
+].map((ch) => (
+                <Button
+                  key={ch}
+                  onClick={() => {
+                    const quill = specialQuillRef.current;
+                    if (!quill) return;
+                    const range = quill.getSelection(true) || { index: quill.getLength(), length: 0 };
+                    quill.insertText(range.index, ch, 'user');
+                    // move cursor after inserted char
+                    quill.setSelection(range.index + ch.length, 0);
+                    quill.focus();
+                    setSpecialModalOpen(false);
+                  }}
+                  variant="outlined"
+                  sx={{ minWidth: 36, minHeight: 36, p: 0.5 }}
+                >
+                  {ch}
+                </Button>
+              ))}
+            </Box>
+
+            
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setSpecialModalOpen(false)}>Close</Button>
+          </DialogActions>
+        </Dialog>
+
 
       {/* ========== EDIT BLOG DIALOG ========== */}
       <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)} fullWidth maxWidth="md">
@@ -827,7 +1055,6 @@ const updateBlog = async () => {
             label="Slug"
             fullWidth
             value={editBlog.slug}
-            InputProps={{ readOnly: true }}
           />
 
           <TextField margin="dense" label="Author" fullWidth
@@ -898,8 +1125,41 @@ const updateBlog = async () => {
           />
 
           <Typography variant="subtitle1" sx={{ mt: 2 }}>Content</Typography>
-          <ReactQuill theme="snow" value={editBlog.content}
-            onChange={(value) => setEditBlog({ ...editBlog, content: value })} />
+
+            {/* Editor Mode Toggle */}
+            <Box sx={{ mb: 1, mt: 2 }}>
+              <ToggleButtonGroup
+                value={editorMode}
+                exclusive
+                onChange={(e, newMode) => setEditorMode(newMode)}
+                aria-label="editor mode"
+              >
+                <ToggleButton value="visual" aria-label="visual editor">
+                  <VisibilityIcon sx={{ mr: 1 }} /> Visual
+                </ToggleButton>
+                <ToggleButton value="code" aria-label="code editor">
+                  <CodeIcon sx={{ mr: 1 }} /> Code
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
+
+            {/* Conditional Editor Render */}
+            {editorMode === 'visual' ? (
+              <ReactQuill
+             theme="snow"  modules={quillModules} value={editBlog.content}
+            onChange={(value) => setEditBlog({ ...editBlog, content: value })}
+              />
+            ) : (
+              <TextField
+                fullWidth
+                multiline
+                rows={15}
+                value={editBlog.content} // or editBlog.content
+                onChange={(e) => setNewBlog({ ...editBlog, content: e.target.value })}
+                placeholder="Enter HTML content here..."
+                sx={{ mt: 1 }}
+              />
+            )}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenEditDialog(false)} color="inherit">Cancel</Button>

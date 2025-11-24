@@ -103,7 +103,7 @@ const MobileRightSidebar = () => {
 
   return (
     <Box>
-      <IconButton
+      {/* <IconButton
         size="large"
         color="inherit"
         onClick={() => setShowDrawer(true)}
@@ -114,7 +114,7 @@ const MobileRightSidebar = () => {
         }}
       >
         <IconGridDots size="21" stroke="1.5" />
-      </IconButton>
+      </IconButton> */}
       {/* ------------------------------------------- */}
       {/* Cart Sidebar */}
       {/* ------------------------------------------- */}
