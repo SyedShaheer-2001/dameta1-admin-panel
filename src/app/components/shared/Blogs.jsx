@@ -725,6 +725,7 @@ const updateBlog = async () => {
                     {/* ✍️ Author */}
                     <TableCell>{blog.author}</TableCell>
 
+
                     {/* 🔖 Tags */}
                     <TableCell
                     sx={{ display: { xs: "none", sm: "none", md: "table-cell" } }}>
@@ -850,6 +851,7 @@ const updateBlog = async () => {
             fullWidth
             value={newBlog.slug}
           />
+          <p>The URL on website will be {newBlog.slug && Live_webiste_URL+'/'+newBlog.slug}</p>
           <TextField margin="dense" label="Author" fullWidth
             value={newBlog.author} onChange={(e) => setNewBlog({ ...newBlog, author: e.target.value })} />
 
@@ -906,25 +908,32 @@ const updateBlog = async () => {
             onChange={(e) => setNewBlog({ ...newBlog, meta_description: e.target.value })}
           />
 
-          <Typography variant="subtitle1" sx={{ mt: 2 }}>Content</Typography>
-
-          {/* Editor Mode Toggle */}
-            <Box sx={{ mb: 1, mt: 2 }}>
-              <ToggleButtonGroup
-                value={editorMode}
-                exclusive
-                onChange={(e, newMode) => setEditorMode(newMode)}
-                aria-label="editor mode"
-              >
-                <ToggleButton value="visual" aria-label="visual editor">
-                  <VisibilityIcon sx={{ mr: 1 }} /> Visual
-                </ToggleButton>
-                <ToggleButton value="code" aria-label="code editor">
-                  <CodeIcon sx={{ mr: 1 }} /> Code
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Box>
-
+            {/* Editor Mode Toggle */}
+            <div style={{ marginTop: 46, display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
+              <div>Content</div>
+              <div style={{ display: 'inline-flex' }}>
+                <button 
+                  onClick={(e) => setEditorMode('visual')}
+                  className={`custom-toggle-button ${editorMode === 'visual' ? 'active' : ''}`}
+                >
+                  <span style={{ marginRight: 8, display: 'flex', alignItems: 'center' }}>
+                    👁
+                  </span>
+                  Visual
+                </button>
+                
+                <button 
+                  onClick={(e) => setEditorMode('code')}
+                  className={`custom-toggle-button ${editorMode === 'code' ? 'active' : ''}`}
+                >
+                  <span style={{ marginRight: 8, display: 'flex', alignItems: 'center' }}>
+                    &lt;/&gt; 
+                  </span>
+                  Code
+                </button>
+              </div>
+            </div>
+                                            
             {/* Conditional Editor Render */}
             {editorMode === 'visual' ? (
               <ReactQuill
@@ -937,22 +946,38 @@ const updateBlog = async () => {
               <TextField
                 fullWidth
                 multiline
-                rows={15}
                 value={newBlog.content} // or editBlog.content
                 onChange={(e) => setNewBlog({ ...newBlog, content: e.target.value })}
                 placeholder="Enter HTML content here..."
-                sx={{ mt: 1 }}
+                sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 0,
+
+                  '& fieldset': {
+                    borderColor: '#ccc', // default border
+                    borderRadius: 0,
+                  },
+
+                  '&:hover fieldset': {
+                    borderColor: '#ccc !important', // stop blue on hover
+                  },
+
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#ccc !important', // stop blue on focus
+                  },
+                },
+              }}
               />
             )}
 
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleAddCancel()} color="inherit">Cancel</Button>
-          <Button onClick={createBlog} variant="contained" disabled={saving}>
-            {saving ? 'Saving...' : 'Add Blog'}
-          </Button>
-        </DialogActions>
-      </Dialog>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => handleAddCancel()} color="inherit">Cancel</Button>
+              <Button onClick={createBlog} variant="contained" disabled={saving}>
+                {saving ? 'Saving...' : 'Add Blog'}
+              </Button>
+            </DialogActions>
+          </Dialog>
 
               {/* Special Characters Modal */}
         <Dialog
@@ -975,38 +1000,38 @@ const updateBlog = async () => {
               }}
             >
               {[
-  // BASIC
-  '©','®','™','✓','✔','✕','•','§','¶','@','#','&',
+                // BASIC
+                '©','®','™','✓','✔','✕','•','§','¶','@','#','&',
 
-  // ARROWS
-  '→','←','↑','↓','↔','↕','⇒','⇐','⇑','⇓','➜','➤','➥','➦','➧','➨','➩','➲',
+                // ARROWS
+                '→','←','↑','↓','↔','↕','⇒','⇐','⇑','⇓','➜','➤','➥','➦','➧','➨','➩','➲',
 
-  // MATH
-  '±','÷','×','=', '≠','≈','≡','≤','≥','∞','∑','∏','√','∫','∂','∆','∇','µ',
+                // MATH
+                '±','÷','×','=', '≠','≈','≡','≤','≥','∞','∑','∏','√','∫','∂','∆','∇','µ',
 
-  // QUOTES & PUNCTUATION
-  '“','”','‘','’','«','»','–','—','…','¡','¿',
+                // QUOTES & PUNCTUATION
+                '“','”','‘','’','«','»','–','—','…','¡','¿',
 
-  // CURRENCY
-  '$','€','£','¥','₩','₽','₹','₱','¢','₴','₦','฿',
+                // CURRENCY
+                '$','€','£','¥','₩','₽','₹','₱','¢','₴','₦','฿',
 
-  // GREEK LETTERS
-  'α','β','γ','δ','ε','θ','λ','μ','π','σ','τ','φ','ψ','Ω','ω',
+                // GREEK LETTERS
+                'α','β','γ','δ','ε','θ','λ','μ','π','σ','τ','φ','ψ','Ω','ω',
 
-  // SUPERSCRIPT / SUBSCRIPT
-  '¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹','⁰',
-  '₁','₂','₃','₄','₅','₆','₇','₈','₉','₀',
+                // SUPERSCRIPT / SUBSCRIPT
+                '¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹','⁰',
+                '₁','₂','₃','₄','₅','₆','₇','₈','₉','₀',
 
-  // ACCENTED CHARACTERS
-  'á','à','â','ä','ã','å','æ','ç','é','è','ê','ë','í','ì','î','ï',
-  'ñ','ó','ò','ô','ö','õ','ø','ß','ú','ù','û','ü','ý','ÿ',
+                // ACCENTED CHARACTERS
+                'á','à','â','ä','ã','å','æ','ç','é','è','ê','ë','í','ì','î','ï',
+                'ñ','ó','ò','ô','ö','õ','ø','ß','ú','ù','û','ü','ý','ÿ',
 
-  // SCIENCE & MATH SPECIAL
-  '°','‰','Ω','℧','ℓ','∈','∉','⊂','⊃','⊆','⊇','∪','∩','∧','∨','⊕','⊗','⊘',
+                // SCIENCE & MATH SPECIAL
+                '°','‰','Ω','℧','ℓ','∈','∉','⊂','⊃','⊆','⊇','∪','∩','∧','∨','⊕','⊗','⊘',
 
-  // MISC
-  '☆','★','✓','✗','✦','✧','♠','♣','♥','♦','♪','♫','✓','✔','✕'
-].map((ch) => (
+                // MISC
+                '☆','★','✓','✗','✦','✧','♠','♣','♥','♦','♪','♫','✓','✔','✕'
+              ].map((ch) => (
                 <Button
                   key={ch}
                   onClick={() => {
@@ -1056,7 +1081,6 @@ const updateBlog = async () => {
             fullWidth
             value={editBlog.slug}
           />
-
           <TextField margin="dense" label="Author" fullWidth
             value={editBlog.author} onChange={(e) => setEditBlog({ ...editBlog, author: e.target.value })} />
 
@@ -1123,25 +1147,31 @@ const updateBlog = async () => {
             value={editBlog.meta_description}
             onChange={(e) => setEditBlog({ ...editBlog, meta_description: e.target.value })}
           />
-
-          <Typography variant="subtitle1" sx={{ mt: 2 }}>Content</Typography>
-
             {/* Editor Mode Toggle */}
-            <Box sx={{ mb: 1, mt: 2 }}>
-              <ToggleButtonGroup
-                value={editorMode}
-                exclusive
-                onChange={(e, newMode) => setEditorMode(newMode)}
-                aria-label="editor mode"
-              >
-                <ToggleButton value="visual" aria-label="visual editor">
-                  <VisibilityIcon sx={{ mr: 1 }} /> Visual
-                </ToggleButton>
-                <ToggleButton value="code" aria-label="code editor">
-                  <CodeIcon sx={{ mr: 1 }} /> Code
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Box>
+            <div style={{ marginTop: 46, display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
+              <div>Content</div>
+              <div style={{ display: 'inline-flex' }}>
+                <button 
+                  onClick={(e) => setEditorMode('visual')}
+                  className={`custom-toggle-button ${editorMode === 'visual' ? 'active' : ''}`}
+                >
+                  <span style={{ marginRight: 8, display: 'flex', alignItems: 'center' }}>
+                    👁
+                  </span>
+                  Visual
+                </button>
+                
+                <button 
+                  onClick={(e) => setEditorMode('code')}
+                  className={`custom-toggle-button ${editorMode === 'code' ? 'active' : ''}`}
+                >
+                  <span style={{ marginRight: 8, display: 'flex', alignItems: 'center' }}>
+                    &lt;/&gt; 
+                  </span>
+                  Code
+                </button>
+              </div>
+            </div>
 
             {/* Conditional Editor Render */}
             {editorMode === 'visual' ? (
@@ -1157,7 +1187,24 @@ const updateBlog = async () => {
                 value={editBlog.content} // or editBlog.content
                 onChange={(e) => setNewBlog({ ...editBlog, content: e.target.value })}
                 placeholder="Enter HTML content here..."
-                sx={{ mt: 1 }}
+                sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 0,
+
+                  '& fieldset': {
+                    borderColor: '#ccc', // default border
+                    borderRadius: 0,
+                  },
+
+                  '&:hover fieldset': {
+                    borderColor: '#ccc !important', // stop blue on hover
+                  },
+
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#ccc !important', // stop blue on focus
+                  },
+                },
+              }}
               />
             )}
         </DialogContent>

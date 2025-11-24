@@ -123,4 +123,43 @@
 .ql-toolbar .ql-pasteText::before {
   content: "T";
 }
+.custom-toggle-button {
+  border: 1px solid #bebebeff;
+  border-bottom: none;
+  color: #2A3547;
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
 
+.custom-toggle-button:first-child {
+  border-right: none;
+}
+
+.custom-toggle-button:last-child {
+  border-right: 1px solid #bebebeff;
+}
+
+.custom-toggle-button:hover {
+  background-color: #f1f1f1;
+  border-color: #a8a8a8;
+  color: rgb(0, 0, 0);
+}
+
+.custom-toggle-button:active {
+  background-color: #e3f2fd;
+  transform: scale(0.98);
+}
+
+.custom-toggle-button.active {
+  background-color: #f1f1f1;
+  color: rgb(0, 0, 0);
+}
+
+.custom-toggle-button.active:hover {
+  background-color: #f1f1f1;
+}

@@ -21,12 +21,15 @@ import {
   Alert,
   Typography,
   CircularProgress,
+  IconButton,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import BASE_URL from '@/utils/api';
+import BASE_URL, { Live_webiste_URL} from '@/utils/api';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -184,7 +187,7 @@ const Categories = () => {
   // ✅ JSX RENDER
   // ===============================
   return (
-    <Box sx={{ maxWidth: 1200, margin: 'auto', p: 3 }}>
+    <Box sx={{ maxWidth: 1000,  p: 3 }}>
       {/* Header */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
@@ -208,9 +211,10 @@ const Categories = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell><strong>#</strong></TableCell>
-                <TableCell><strong>Category Name</strong></TableCell>
-                <TableCell align="right"><strong>Actions</strong></TableCell>
+                <TableCell sx={{ width: "20%" }}><strong>#</strong></TableCell>
+                <TableCell sx={{ width: "30%" }}><strong>Category Name</strong></TableCell>
+                <TableCell sx={{ width: "30%" }}><strong>Slug</strong></TableCell>
+                <TableCell sx={{ width: "20%" }} align="right"><strong>Actions</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -220,24 +224,30 @@ const Categories = () => {
                   <TableRow key={cat.id} hover>
                     <TableCell>{index + 1 + page * rowsPerPage}</TableCell>
                     <TableCell>{cat.name}</TableCell>
+                    <TableCell>{cat.slug}</TableCell>
                     <TableCell align="right">
-                      <Button
-                        variant="contained"
-                        color="info"
-                        startIcon={<EditIcon />}
-                        sx={{ mr: 1 }}
-                        onClick={() => openEditModal(cat)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        startIcon={<DeleteIcon />}
-                        onClick={() => handleDeleteClick(cat.id)}
-                      >
-                        Delete
-                      </Button>
+                      <div style={{}}>
+                        <IconButton
+                          color="info"
+                          onClick={() => openEditModal(cat)}
+                        >
+                          <EditIcon fontSize="small" />
+                        </IconButton>
+
+                        <IconButton
+                          color="error"
+                          onClick={() => handleDeleteClick(cat.id)}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+
+                        <IconButton
+                          color="primary"
+                          onClick={() => window.open(`${Live_webiste_URL}/category/${cat.slug}`, "_blank")}
+                        >
+                          <VisibilityIcon fontSize="small" />
+                        </IconButton>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

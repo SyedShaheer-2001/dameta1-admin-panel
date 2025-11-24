@@ -27,11 +27,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/loading.js"
     ],
-    "/auth/auth1/login/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/auth/auth1/login/page.js"
-    ],
     "/(DashboardLayout)/blogs/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
