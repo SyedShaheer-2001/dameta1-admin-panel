@@ -68,7 +68,7 @@ const quillModules = {
       // Special
       ["clean"],            // Clear formatting
       ["special"],          // Special characters popup
-      ["pasteText"],        // Paste as plain text
+      // ["pasteText"],        // Paste as plain text
 
       // Media
       
