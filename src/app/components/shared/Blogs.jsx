@@ -841,7 +841,6 @@ const updateBlog = async () => {
               setNewBlog({
                 ...newBlog,
                 title: t,
-                slug: slugify(t) // 🔥 auto slug
               });
             }}
             />
@@ -849,6 +848,7 @@ const updateBlog = async () => {
             margin="dense"
             label="Slug"
             fullWidth
+             onChange={(e) => setNewBlog({ ...newBlog, slug: e.target.value })}
             value={newBlog.slug}
           />
           <p>The URL on website will be {newBlog.slug && Live_webiste_URL+'/'+newBlog.slug}</p>
@@ -1071,7 +1071,6 @@ const updateBlog = async () => {
               setEditBlog({
                 ...editBlog,
                 title: t,
-                slug: slugify(t)
               });
             }}
             />
@@ -1079,6 +1078,7 @@ const updateBlog = async () => {
             margin="dense"
             label="Slug"
             fullWidth
+            onChange={(e) => setEditBlog({ ...editBlog, slug: e.target.value })}
             value={editBlog.slug}
           />
           <TextField margin="dense" label="Author" fullWidth
