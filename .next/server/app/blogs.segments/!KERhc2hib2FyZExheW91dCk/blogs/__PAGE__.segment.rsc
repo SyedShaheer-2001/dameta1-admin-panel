@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[43622,["/_next/static/chunks/1edb6456cbbaaca9.js","/_next/static/chunks/6f0d431f8dbd3975.js","/_next/static/chunks/42ecd5488eb8ef89.js","/_next/static/chunks/ec2d84f45043c85a.js","/_next/static/chunks/0dea50fc2fe985fd.js","/_next/static/chunks/4513d4f7069d55e1.js","/_next/static/chunks/fb617f920769b4eb.js","/_next/static/chunks/3c4fdddb127713a1.js","/_next/static/chunks/ef9e1ba4c1b92fd1.js","/_next/static/chunks/c9e76a46adb2900f.js","/_next/static/chunks/abc6d727640e5ff8.js","/_next/static/chunks/45ee60285d3ebbb0.js"],"default"]
+3:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/71269f22dd7bc8b6.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"iDa4z0Tmj6ooH3PhzZXMw","rsc":["$","$1","c",{"children":[["$","div",null,{"children":[["$","title",null,{"children":"Blogs Page"}],["$","meta",null,{"name":"description","content":"This is Blogs page"}],["$","$L2",null,{}]]}],[["$","script","script-0",{"src":"/_next/static/chunks/abc6d727640e5ff8.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/45ee60285d3ebbb0.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+5:null

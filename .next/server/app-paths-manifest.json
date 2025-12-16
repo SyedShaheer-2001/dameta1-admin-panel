@@ -1,0 +1,12 @@
+{
+  "/(DashboardLayout)/blogs/page": "app/(DashboardLayout)/blogs/page.js",
+  "/(DashboardLayout)/categories/page": "app/(DashboardLayout)/categories/page.js",
+  "/(DashboardLayout)/page": "app/(DashboardLayout)/page.js",
+  "/(DashboardLayout)/profile/page": "app/(DashboardLayout)/profile/page.js",
+  "/(DashboardLayout)/utilities/shadow/page": "app/(DashboardLayout)/utilities/shadow/page.js",
+  "/(DashboardLayout)/utilities/typography/page": "app/(DashboardLayout)/utilities/typography/page.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/auth/auth1/login/page": "app/auth/auth1/login/page.js",
+  "/auth/error/page": "app/auth/error/page.js"
+}

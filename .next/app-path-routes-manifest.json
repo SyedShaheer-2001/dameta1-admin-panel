@@ -1,0 +1,12 @@
+{
+  "/(DashboardLayout)/blogs/page": "/blogs",
+  "/(DashboardLayout)/categories/page": "/categories",
+  "/(DashboardLayout)/page": "/",
+  "/(DashboardLayout)/profile/page": "/profile",
+  "/(DashboardLayout)/utilities/shadow/page": "/utilities/shadow",
+  "/(DashboardLayout)/utilities/typography/page": "/utilities/typography",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/auth/auth1/login/page": "/auth/auth1/login",
+  "/auth/error/page": "/auth/error"
+}

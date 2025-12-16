@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(DashboardLayout)/layout,_N_T_/(DashboardLayout)/blogs/layout,_N_T_/(DashboardLayout)/blogs/page,_N_T_/blogs"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KERhc2hib2FyZExheW91dCk/blogs/__PAGE__",
+    "/!KERhc2hib2FyZExheW91dCk/blogs",
+    "/!KERhc2hib2FyZExheW91dCk",
+    "/_index",
+    "/_head"
+  ]
+}

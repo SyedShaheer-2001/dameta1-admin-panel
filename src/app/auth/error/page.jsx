@@ -15,25 +15,30 @@ const Error = () => (
   >
     <Container maxWidth="md">
       <Image
-        src={"/images/backgrounds/errorimg.svg"}
-        alt="404" width={500} height={500}
-        style={{ width: "100%", maxWidth: "500px", maxHeight: '500px' }}
+        src="/images/backgrounds/errorimg.svg"
+        alt="404"
+        width={500}
+        height={500}
+        style={{ width: "100%", maxWidth: "500px", maxHeight: "500px" }}
       />
+
       <Typography align="center" variant="h1" mb={4}>
-        Opps!!!
+        Oops!!!
       </Typography>
+
       <Typography align="center" variant="h4" mb={4}>
         This page you are looking for could not be found.
       </Typography>
-      <Button
-        color="primary"
-        variant="contained"
-        component={Link}
-        href="/"
-        disableElevation
-      >
-        Go Back to Home
-      </Button>
+
+      <Link href="/" style={{ textDecoration: "none" }}>
+        <Button
+          color="primary"
+          variant="contained"
+          disableElevation
+        >
+          Go Back to Home
+        </Button>
+      </Link>
     </Container>
   </Box>
 );

@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(DashboardLayout)/layout,_N_T_/(DashboardLayout)/utilities/layout,_N_T_/(DashboardLayout)/utilities/typography/layout,_N_T_/(DashboardLayout)/utilities/typography/page,_N_T_/utilities/typography"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KERhc2hib2FyZExheW91dCk/utilities/typography/__PAGE__",
+    "/!KERhc2hib2FyZExheW91dCk/utilities/typography",
+    "/!KERhc2hib2FyZExheW91dCk/utilities",
+    "/!KERhc2hib2FyZExheW91dCk",
+    "/_index",
+    "/_head"
+  ]
+}
